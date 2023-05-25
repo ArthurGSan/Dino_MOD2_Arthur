@@ -18,7 +18,6 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 BACK_GROUND = pygame.image.load(os.path.join(IMG_DIR, 'Other/Background-night.png')).convert()
 BACK_GROUND = pygame.transform.scale(BACK_GROUND, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-
 class Menu:
     def __init__(self):
         self.options = ["start", "shop", "credits", "exit"]
@@ -42,7 +41,7 @@ class Menu:
         if self.index == index:
             return YELLOW
         else:
-            return (0, 0, 0)
+            return (255, 255, 255)
         
     def game_quit(self, game):
         game.playing = False
