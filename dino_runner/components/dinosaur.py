@@ -39,12 +39,12 @@ class Dinosaur(Sprite):
         elif self.dino_duck:
             self.duck()
 
-        if user_input[pygame.K_UP] and not self.dino_jump:
+        if (user_input[pygame.K_UP] or user_input[pygame.K_w]) and not self.dino_jump:
             JUMP_SOUND.play()
             self.dino_run = False
             self.dino_jump = True
             self.dino_duck = False
-        elif user_input[pygame.K_DOWN] and not self.dino_jump:
+        elif (user_input[pygame.K_DOWN] or user_input[pygame.K_s]) and not self.dino_jump:
             DUCK_SOUND.play()
             DUCK_SOUND.set_volume(0.5)
             self.dino_run = False
