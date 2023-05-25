@@ -115,18 +115,45 @@ class Menu:
                 game.playing = False
                 game.running = False
 
-    def draw_shop_menu(self, screen, all_time_score):
-        screen.fill((255, 255, 255))
+    def draw_shop_menu(self, screen):
+        screen.blit(BACK_GROUND, (0, 0))
         draw_message_component(
-                f"Shop points: {all_time_score}",
+                f"Development Team:",
                 screen,
-                pos_x_center = 1000,
-                pos_y_center = 50
+                font_size = FONT_SIZE,
+                pos_x_center = HALF_SCREEN_WIDTH,
+                pos_y_center = 90
+            )
+        draw_message_component(
+                f"Arthur",
+                screen,
+                font_size = FONT_SIZE,
+                pos_x_center = HALF_SCREEN_WIDTH,
+                pos_y_center = 150
+            )
+        draw_message_component(
+                f"Fernando",
+                screen,
+                font_size = FONT_SIZE,
+                pos_x_center = HALF_SCREEN_WIDTH,
+                pos_y_center = 210
+            )
+        draw_message_component(
+                f"Luiz",
+                screen,
+                font_size = FONT_SIZE,
+                pos_x_center = HALF_SCREEN_WIDTH,
+                pos_y_center = 270
+            )
+        draw_message_component(
+                f"Special thanks to Roberto, for contributing with the code, and to you, for playing this game!",
+                screen,
+                pos_x_center = HALF_SCREEN_WIDTH,
+                pos_y_center = 420
             )
         pygame.display.flip()
 
     def draw_rank_menu(self, screen, rank_menu):
-        # screen.fill((255, 255, 255))
         screen.blit(BACK_GROUND, (0, 0))   
         height = screen.get_height()
         draw_message_component(
@@ -145,12 +172,12 @@ class Menu:
         pygame.display.flip()
 
     def draw_menu(self, screen, score, death_count):
-        screen.fill((255, 255, 255))
+        screen.blit(BACK_GROUND, (0, 0))
         height = screen.get_height()
         if death_count == 0:
-            self.options = ["start", "shop", "credits", "exit"]
+            self.options = ["start", "credits", "exit"]
         else: 
-            self.options = ["restart", "shop", "credits", "rank", "exit"]
+            self.options = ["restart", "credits", "rank", "exit"]
             draw_message_component(
                 f"Last score: {score}",
                 screen,
