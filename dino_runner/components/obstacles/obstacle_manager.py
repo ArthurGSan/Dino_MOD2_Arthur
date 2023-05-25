@@ -23,6 +23,7 @@ class ObstacleManager:
                     pygame.time.delay(500)
                     game.playing = False
                     game.death_count += 1
+                    game.update_score_rank()
                     break
                 else:
                     DESTROY.play()
