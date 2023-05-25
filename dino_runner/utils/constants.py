@@ -20,6 +20,8 @@ MENU_BLEEP = pygame.mixer.Sound(os.path.join(IMG_DIR, "Sounds/MenuBleep.wav"))
 
 BG_SOUND = pygame.mixer.music.load(os.path.join(IMG_DIR, "Sounds/GHZAct1.mp3"))
 
+YELLOW = (255, 255, 0)
+
 # Assets Constants
 ICON = pygame.image.load(os.path.join(IMG_DIR, "ICON.png"))
 icon_death = pygame.image.load(os.path.join(IMG_DIR, "Other/DEATH.png"))
