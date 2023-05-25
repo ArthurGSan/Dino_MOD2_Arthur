@@ -6,6 +6,7 @@ from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.utils.text_utils import draw_message_component
 from dino_runner.components.powerups.power_up_manager import PowerUpManager
+from dino_runner.components.menu import Menu
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
@@ -26,9 +27,11 @@ class Game:
         self.game_speed = 10
         self.x_pos_bg = 0
         self.y_pos_bg = 350
+        self.score_rank = []
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
         self.power_up_manager = PowerUpManager()
+        self.menu = Menu()
 
     def execute(self):
         self.running = True
@@ -36,10 +39,9 @@ class Game:
             pygame.mixer.music.play(-1)
             pygame.mixer.music.set_volume(0.3)
             if not self.playing:
-                self.show_menu()
-
-        pygame.display.quit()
+                self.menu.show_menu(self, self.screen, self.score , self.death_count, self.score_rank)
         pygame.quit()
+        exit()
 
     def run(self):
         self.playing = True
@@ -69,9 +71,23 @@ class Game:
 
     def update_score(self):
         self.score += 1
-        
         if self.score % 100 == 0 and self.score < 900:
             self.game_speed += 3
+
+    def update_score_rank(self):
+        self.score_rank.append(self.score + 1)
+        if len(self.score_rank) > 0:
+            index = len(self.score_rank) - 1
+            last_element_index = index
+            last_element = self.score_rank[index]
+            index -= 1
+            while index >= 0:
+                if last_element > self.score_rank[index]:
+                    self.score_rank[index], self.score_rank[last_element_index] = self.score_rank[last_element_index], self.score_rank[index]
+                    last_element_index = index
+                index -= 1
+            if len(self.score_rank) >= 6:
+                self.score_rank.pop(-1)
 
     def draw(self):
         self.clock.tick(FPS)
@@ -117,37 +133,3 @@ class Game:
             else:
                 self.player.has_power_up = False
                 self.player.type = DEFAULT_TYPE
-
-    def handle_events_on_menu(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.playing = False
-                self.running = False
-            elif event.type == pygame.KEYDOWN:
-                MENU_BLEEP.play()
-                pygame.time.delay(250)
-                self.run()
-
-    def show_menu(self):
-        screen.blit(BACK_GROUND, (0, 0))
-        half_screen_height = SCREEN_HEIGHT // 2
-        half_screen_width = SCREEN_WIDTH // 2
-        if self.death_count == 0:
-            draw_message_component("Aperte qualquer tecla para iniciar o jogo", self.screen, pos_y_center=half_screen_height + 150 )
-            self.screen.blit(START_MENU, (half_screen_width - 150, half_screen_height - 200))
-        else:
-            draw_message_component("Precione uma tecla para reiniciar o jogo", self.screen, pos_y_center=half_screen_height + 140)
-            draw_message_component(
-                f"Sua pontuação: {self.score}",
-                self.screen,
-                pos_y_center=half_screen_height - 150
-            )
-            draw_message_component(
-                f"Contagem de mortes: {self.death_count}",
-                self.screen,
-                pos_y_center=half_screen_height - 100
-            )
-            self.screen.blit(ICON_DEATH, (half_screen_width - 60, half_screen_height - 50))
-
-        pygame.display.flip()
-        self.handle_events_on_menu()
